@@ -124,6 +124,10 @@
         "source": "C:\\Users\\Andres\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\417fabfb795750ef338b752b033b5630\\res\\drawable-hdpi-v4\\abc_spinner_mtrl_am_alpha.9.png"
     },
     {
+        "merged": "C:\\Users\\Andres\\Desktop\\CS4800 APP\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_main1.xml.flat",
+        "source": "C:\\Users\\Andres\\Desktop\\CS4800 APP\\app\\src\\main\\res\\layout\\activity_main1.xml"
+    },
+    {
         "merged": "C:\\Users\\Andres\\Desktop\\CS4800 APP\\app\\build\\intermediates\\res\\merged\\debug\\anim_abc_slide_out_bottom.xml.flat",
         "source": "C:\\Users\\Andres\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\417fabfb795750ef338b752b033b5630\\res\\anim\\abc_slide_out_bottom.xml"
     },
@@ -642,6 +646,10 @@
     {
         "merged": "C:\\Users\\Andres\\Desktop\\CS4800 APP\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-hdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
         "source": "C:\\Users\\Andres\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-28.0.0.aar\\417fabfb795750ef338b752b033b5630\\res\\drawable-ldrtl-hdpi-v17\\abc_ic_menu_cut_mtrl_alpha.png"
+    },
+    {
+        "merged": "C:\\Users\\Andres\\Desktop\\CS4800 APP\\app\\build\\intermediates\\res\\merged\\debug\\drawable_apple_icon.png.flat",
+        "source": "C:\\Users\\Andres\\Desktop\\CS4800 APP\\app\\src\\main\\res\\drawable\\apple_icon.png"
     },
     {
         "merged": "C:\\Users\\Andres\\Desktop\\CS4800 APP\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_abc_scrubber_control_to_pressed_mtrl_005.png.flat",

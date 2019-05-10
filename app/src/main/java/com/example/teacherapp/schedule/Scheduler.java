@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -18,23 +17,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Console;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.example.teacherapp.R;
 import com.example.teacherapp.AppBase;
-import com.example.teacherapp.profile.StudentRegistration;
+
+import javax.xml.transform.Result;
 
 public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
 
     ListView listView;
     ArrayAdapter adapter;
-    ArrayList<Integer> ids;
     ArrayList<String> subs;
     ArrayList<String> subx;
     ArrayList<String> times;
-    int classid;
+    ResultSet rs;
     Activity activity = this;
 
     @Override
@@ -57,7 +57,7 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
         subx = new ArrayList<>();
         listView = (ListView) findViewById(R.id.schedulerList);
         try {
-            loadSchedules();
+            rs=loadSchedules();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,13 +66,19 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-/*                Intent intent = new Intent(getApplicationContext(), ClassRosterList.class);
-                startActivity(intent);*/
+                try {
+                    Integer idnum = rs.getInt(1);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(getApplicationContext(), ClassRosterList.class);
+                startActivity(intent);
+
             }
         });
     }
 
-    private void loadSchedules() throws SQLException {
+    private ResultSet loadSchedules() throws SQLException {
         subs.clear();
         times.clear();
         String qu = "SELECT * FROM classRoster ORDER BY className";
@@ -83,7 +89,6 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
             rs.first();
             while (!rs.isAfterLast()) {
                 subx.add(rs.getString(2));
-                ids.add(rs.getInt(1));
                 subs.add(rs.getString(2) + "\nat " + rs.getString(7) + "\n" + rs.getString(6));
                 times.add(rs.getString(3));
                 rs.next();
@@ -91,6 +96,7 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
         }
         ArrayAdapter adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, subs);
         listView.setAdapter(adapter);
+        return rs;
     }
 
 

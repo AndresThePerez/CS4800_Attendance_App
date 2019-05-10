@@ -103,6 +103,8 @@ public class DatabaseHandler extends AsyncTask<String, String, String> {
         return true;
     }
 
+
+
     public ResultSet execQuery(String qu) {
         try {
             ConnectionClass conStr = new ConnectionClass();
