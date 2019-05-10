@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.easylogin"
+    android:targetSandboxVersion="2"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="28" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:testOnly="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name="com.example.teacherapp.schedule.ClassRosterList"
+            android:label="@string/title_activity_class_roster_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.teacherapp.CreateAcct"
+            android:label="@string/title_activity_create_acct"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.teacherapp.AppBase"
+            android:label="Main Menu" />
+        <activity
+            android:name="com.example.teacherapp.StudentList"
+            android:label="@string/title_activity_student_list"
+            android:theme="@style/AppTheme" />
+        <activity android:name="com.example.teacherapp.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.teacherapp.profile.ProfileActivity"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+        <activity
+            android:name="com.example.teacherapp.profile.StudentRegistration"
+            android:parentActivityName="com.example.teacherapp.profile.ProfileActivity" />
+        <activity
+            android:name="com.example.teacherapp.notes.NoteCreate"
+            android:parentActivityName="com.example.teacherapp.notes.NoteActivity" />
+        <activity
+            android:name="com.example.teacherapp.attendance.AttendanceActivity"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+        <activity
+            android:name="com.example.teacherapp.components.ResultActivity"
+            android:parentActivityName="com.example.teacherapp.components.CgpaActivity" />
+        <activity
+            android:name="com.example.teacherapp.components.CgpaActivity"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+        <activity
+            android:name="com.example.teacherapp.notes.NoteActivity"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+        <activity
+            android:name="com.example.teacherapp.schedule.Scheduler"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+        <activity
+            android:name="com.example.teacherapp.schedule.CreateScheduleActivity"
+            android:parentActivityName="com.example.teacherapp.schedule.Scheduler" />
+        <activity
+            android:name="com.example.teacherapp.components.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+        <activity
+            android:name="com.example.teacherapp.components.About"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+        <activity
+            android:name="com.example.teacherapp.profile.EditStudentActivity"
+            android:parentActivityName="com.example.teacherapp.AppBase" />
+
+        <provider
+            android:name="com.android.tools.ir.server.InstantRunContentProvider"
+            android:authorities="com.example.easylogin.com.android.tools.ir.server.InstantRunContentProvider"
+            android:multiprocess="true" />
+    </application>
+
+</manifest>
