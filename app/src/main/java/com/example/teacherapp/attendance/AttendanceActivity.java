@@ -1,11 +1,13 @@
 package com.example.teacherapp.attendance;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,17 +21,24 @@ import java.util.ArrayList;
 import com.example.teacherapp.R;
 import com.example.teacherapp.AppBase;
 import com.example.teacherapp.components.ListAdapter;
+import com.example.teacherapp.schedule.ClassRosterList;
 
 public class AttendanceActivity extends AppCompatActivity {
 
-    public static String time, period;
+    public static String time, period, date;
     ListView listView;
     ListAdapter adapter;
     ArrayAdapter<String> adapterSpinner;
     ArrayList<String> names;
     ArrayList<String> registers;
-    Activity thisActivity = this;
+    ArrayList<String> subs;
+    ArrayList<String> subx;
+    ArrayList<String> times;
+    ArrayList<Integer> test;
+    String message;
+    Activity activity = this;
     Spinner spinner;
+    String rosterID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,43 +47,62 @@ public class AttendanceActivity extends AppCompatActivity {
 
         time = getIntent().getStringExtra("DATE");
         period = getIntent().getStringExtra("PERIOD");
+        date = getIntent().getStringExtra("DOW");
 
         Log.d("Attendance", time + " -- " + period);
-        listView = (ListView) findViewById(R.id.attendanceListViwe);
+        listView = (ListView) findViewById(R.id.classList);
         names = new ArrayList<>();
         registers = new ArrayList<>();
-
-        Button btn = (Button) findViewById(R.id.loadButton);
-        assert btn != null;
-        btn.setOnClickListener(new View.OnClickListener() {
+        subs = new ArrayList<>();
+        times = new ArrayList<>();
+        subx = new ArrayList<>();
+        test = new ArrayList<>();
+        try {
+            loadSchedules();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                try {
-                    loadListView(v);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ResultSet resultSet = (ResultSet)listView.getAdapter().getItem(position);
+                message =test.get(position).toString();
+
+
+                Intent intent = new Intent(getApplicationContext(), RosterAttendance.class);
+                intent.putExtra("DOW", date);
+                intent.putExtra("DATE", time);
+                intent.putExtra("PERIOD", period);
+                intent.putExtra("message", message);
+                startActivity(intent);
+
             }
-        });
-
-        Button btnx = (Button) findViewById(R.id.buttonSaveAttendance);
-        assert btnx != null;
-        btnx.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Saving", Toast.LENGTH_LONG).show();
-                adapter.saveAll();
+    });
+    }
+    public  void loadSchedules() throws SQLException {
+        subs.clear();
+        times.clear();
+        test.clear();
+        String qu = "SELECT * FROM classroster ORDER BY className";
+        ResultSet rs = AppBase.handler.execQuery(qu);
+        if (rs == null) {
+            Toast.makeText(getBaseContext(), "No Schedules Available", Toast.LENGTH_LONG).show();
+        } else {
+            rs.first();
+            while (!rs.isAfterLast()) {
+                test.add(rs.getInt(1));
+                subx.add(rs.getString(2));
+                subs.add(rs.getString(2) + "\nat " + rs.getString(7) + "\n" + rs.getString(6));
+                times.add(rs.getString(3));
+                rs.next();
             }
-        });
-
-        spinner = (Spinner) findViewById(R.id.attendanceSpinner);
-        adapterSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, AppBase.divisions);
-        assert spinner != null;
-        spinner.setAdapter(adapterSpinner);
-
+        }
+        ArrayAdapter adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, subs);
+        listView.setAdapter(adapter);
     }
 
-    public void loadListView(View view) throws SQLException {
+/*    public void loadListView(View view) throws SQLException {
         names.clear();
         registers.clear();
         String qu = "SELECT * FROM STUDENT WHERE cl = '" + spinner.getSelectedItem().toString() + "' " +
@@ -98,5 +126,5 @@ public class AttendanceActivity extends AppCompatActivity {
         }
         adapter = new ListAdapter(thisActivity, names, registers);
         listView.setAdapter(adapter);
-    }
+    }*/
 }

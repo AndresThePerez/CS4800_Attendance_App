@@ -11,6 +11,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.example.teacherapp.R;
@@ -63,14 +65,18 @@ public class CreateScheduleActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveSchedule(v);
+                try {
+                    saveSchedule(v);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
 
-    private void saveSchedule(View v) {
+    private void saveSchedule(View v) throws SQLException {
         String daySelected = daySelect.getSelectedItem().toString();
         String classSelected = classSelect.getSelectedItem().toString();
         String yearSelected = yearSelect.getSelectedItem().toString();
@@ -84,12 +90,13 @@ public class CreateScheduleActivity extends AppCompatActivity {
         int hour = timePicker.getCurrentHour();
         int min = timePicker.getCurrentMinute();
 
+
 /*        String sql = "INSERT INTO SCHEDULE VALUES('" + classSelected + "'," +
                 "'" + subject + "'," +
                 "'" + hour + ":" + min + "'," +
                 "'" + daySelected + "');";*/
         //String sql = "insert into classRoster set "+classSelected+"', '1', 'winter', "+subject+"";
-        String sql = "insert into classRoster set className='"+subject+"', year='"+yearSelected+"', semester='"+classSelected+"' , startTime='"+hour+":"+min+"', days='"+daySelected+"';";
+        String sql = "insert into classroster set className='"+subject+"', year='"+yearSelected+"', semester='"+classSelected+"' , startTime='"+hour+":"+min+"', days='"+daySelected+"';";
         Log.d("Schedule", sql);
         if (AppBase.handler.execAction(sql)) {
             Toast.makeText(getBaseContext(), "Scheduling Done", Toast.LENGTH_LONG).show();

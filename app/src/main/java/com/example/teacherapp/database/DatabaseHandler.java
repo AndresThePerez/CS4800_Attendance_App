@@ -4,31 +4,18 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.teacherapp.AppBase;
-import com.example.teacherapp.MainActivity;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.xml.transform.Result;
 
 public class DatabaseHandler extends AsyncTask<String, String, String> {
     Activity activity;
@@ -37,6 +24,7 @@ public class DatabaseHandler extends AsyncTask<String, String, String> {
     private SQLiteDatabase database;
     AlertDialog alertDialog;
     String z="";
+    ResultSet rs;
     ConnectionClass connectionClass;
     boolean isSuccess=false;
 
@@ -119,6 +107,20 @@ public class DatabaseHandler extends AsyncTask<String, String, String> {
         return null;
     }
 
+    public ResultSet getResults(String qu) {
+        try {
+            ConnectionClass conStr = new ConnectionClass();
+            con = conStr.CONN();
+            Statement stmt = con.createStatement();
+            ResultSet rs=stmt.executeQuery(qu);
+            return rs;
+        } catch (Exception e) {
+            Log.e("DatabaseHandler", qu);
+            Toast.makeText(activity,"Error Occurred for getResults",Toast.LENGTH_LONG).show();
+        }
+        return null;
+    }
+
 
 
     @Override
@@ -152,7 +154,7 @@ public class DatabaseHandler extends AsyncTask<String, String, String> {
                             z = "please check your internet connection.";
                         } else {
 
-                            String query = " insert into teachers values ('1', '" + fname + "', '" + lname + "', '" + email + "', '" + password +"')";
+                            String query = " insert into teachers set teacherFirst='" + fname + "', teacherLast='" + lname + "', teacherEmail='" + email + "', password='" + password +"';";
 
 
 

@@ -34,7 +34,9 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
     ArrayList<String> subs;
     ArrayList<String> subx;
     ArrayList<String> times;
+    ArrayList<Integer> test;
     ResultSet rs;
+    String message;
     Activity activity = this;
 
     @Override
@@ -55,9 +57,10 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
         subs = new ArrayList<>();
         times = new ArrayList<>();
         subx = new ArrayList<>();
+        test = new ArrayList<>();
         listView = (ListView) findViewById(R.id.schedulerList);
         try {
-            rs=loadSchedules();
+            loadSchedules();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,21 +69,24 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                try {
-                    Integer idnum = rs.getInt(1);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                ResultSet resultSet = (ResultSet)listView.getAdapter().getItem(position);
+                message=test.get(position).toString();
+
+                Toast.makeText(activity.getApplicationContext(),""+message,Toast.LENGTH_LONG).show();
+
+
                 Intent intent = new Intent(getApplicationContext(), ClassRosterList.class);
+                intent.putExtra("message", message);
                 startActivity(intent);
 
             }
         });
     }
 
-    private ResultSet loadSchedules() throws SQLException {
+    public  void loadSchedules() throws SQLException {
         subs.clear();
         times.clear();
+        test.clear();
         String qu = "SELECT * FROM classRoster ORDER BY className";
         ResultSet rs = AppBase.handler.execQuery(qu);
         if (rs == null) {
@@ -88,6 +94,7 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
         } else {
             rs.first();
             while (!rs.isAfterLast()) {
+                test.add(rs.getInt(1));
                 subx.add(rs.getString(2));
                 subs.add(rs.getString(2) + "\nat " + rs.getString(7) + "\n" + rs.getString(6));
                 times.add(rs.getString(3));
@@ -96,8 +103,8 @@ public class Scheduler extends AppCompatActivity implements AdapterView.OnItemLo
         }
         ArrayAdapter adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, subs);
         listView.setAdapter(adapter);
-        return rs;
     }
+
 
 
     @Override

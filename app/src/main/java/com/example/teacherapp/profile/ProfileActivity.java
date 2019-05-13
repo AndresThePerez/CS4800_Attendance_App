@@ -111,14 +111,14 @@ public class ProfileActivity extends AppCompatActivity {
         atts.clear();
         EditText editText = (EditText) findViewById(R.id.editText);
         TextView textView = (TextView) findViewById(R.id.profileContentView);
-        String reg = editText.getText().toString();
-        String qu = "SELECT * FROM STUDENT WHERE regno = '" + reg.toUpperCase() + "'";
-        String qc = "SELECT * FROM ATTENDANCE WHERE register = '" + reg.toUpperCase() + "';";
-        String qd = "SELECT * FROM ATTENDANCE WHERE register = '" + reg.toUpperCase() + "' AND isPresent = 1";
+        String lastname = editText.getText().toString();
+        String qu = "SELECT * FROM students WHERE  studentLast= '" + lastname + "'";
+        //String qc = "SELECT * FROM ATTENDANCE WHERE register = '" + reg.toUpperCase() + "';";
+        //String qd = "SELECT * FROM ATTENDANCE WHERE register = '" + reg.toUpperCase() + "' AND isPresent = 1";
         ResultSet rs = handler.execQuery(qu);
         //Start Count Here
 
-        float att = 0f;
+        /*float att = 0f;
         ResultSet r1 = handler.execQuery(qc);
         ResultSet r2 = handler.execQuery(qd);
         if (r1 == null) {
@@ -138,10 +138,10 @@ public class ProfileActivity extends AppCompatActivity {
             } catch (Exception e) {
                 att = -1;
             }
-        }
+        }*/
 
 
-        if (rs == null || rs.getFetchSize() == 0) {
+        /*if (rs == null || rs.getFetchSize() == 0) {
             assert textView != null;
             textView.setText("No Data Available");
         } else {
@@ -181,7 +181,7 @@ public class ProfileActivity extends AppCompatActivity {
                 adapter = new ProfileAdapter(dates, atts, profileActivity, datesALONE, hourALONE, editText.getText().toString().toUpperCase());
                 listView.setAdapter(adapter);
             }
-        }
+        }*/
     }
 
     @Override

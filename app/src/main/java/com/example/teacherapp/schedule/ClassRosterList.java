@@ -38,11 +38,13 @@ public class ClassRosterList extends AppCompatActivity {
 
     ListView listView;
     ArrayAdapter adapter;
-    ArrayList<Integer> ids;
+    ArrayList<Integer> test;
     ArrayList<String> subs;
     ArrayList<String> subx;
     ArrayList<String> times;
     Activity activity = this;
+    String rosterID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class ClassRosterList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent launchIntent = new Intent(getBaseContext(), StudentRegistration.class);
+                launchIntent.putExtra("rosterID", rosterID);
                 startActivity(launchIntent);
             }
         });
@@ -64,8 +67,11 @@ public class ClassRosterList extends AppCompatActivity {
         times = new ArrayList<>();
         subx = new ArrayList<>();
         listView = (ListView) findViewById(R.id.rosterList);
+        Bundle bundle = getIntent().getExtras();
+        String message = bundle.getString("message");
+        rosterID=getNum(message);
         try {
-            loadRoster();
+            loadRoster(message);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,16 +79,27 @@ public class ClassRosterList extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), ClassRosterList.class);
-                startActivity(intent);
+                ResultSet rs = (ResultSet) adapter.getItem(position);
+                try {
+                    if(rs.first()){
+                        String hello = rs.getString("rosterID");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(activity.getApplicationContext(),""+rosterID,Toast.LENGTH_LONG).show();
+                //Intent intent = new Intent(getApplicationContext(), ClassRosterList.class);
+                //startActivity(intent);
             }
         });
     }
+    public String getNum(String num){
+        rosterID = num;
+        return num;
+    }
+    private void loadRoster(String message) throws SQLException {
 
-    private void loadRoster() throws SQLException {
-        subs.clear();
-        times.clear();
-        String qu = "SELECT S.studentID, S.studentFirst, S.studentLast FROM isInClass I JOIN students S ON S.studentID=I.studentID where I.rosterID= order by studentLast;";
+        String qu = "SELECT S.studentID, S.studentFirst, S.studentLast FROM isInClass I JOIN students S ON S.studentID=I.studentID where I.rosterID="+message+" order by studentLast;";
         ResultSet rs = AppBase.handler.execQuery(qu);
         if (rs == null) {
             Toast.makeText(getBaseContext(), "No Schedules Available", Toast.LENGTH_LONG).show();

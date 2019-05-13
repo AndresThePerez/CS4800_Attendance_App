@@ -63,4 +63,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_create_acct">CreateAcct</string>
     <string name="title_activity_class_roster_list">ClassRosterList</string>
+    <string name="title_activity_roster_attendance">RosterAttendance</string>
 </resources>

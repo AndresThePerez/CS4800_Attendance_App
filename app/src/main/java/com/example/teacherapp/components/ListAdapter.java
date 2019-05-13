@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import com.example.teacherapp.R;
 import com.example.teacherapp.AppBase;
 import com.example.teacherapp.attendance.AttendanceActivity;
+import com.example.teacherapp.attendance.RosterAttendance;
 
 public class ListAdapter extends BaseAdapter {
     ArrayList<String> nameList;
@@ -73,10 +74,9 @@ public class ListAdapter extends BaseAdapter {
             if (attendanceList.get(i))
                 sts = 1;
             else sts = 0;
-            String qu = "INSERT INTO ATTENDANCE VALUES('" + AttendanceActivity.time + "'," +
-                    "" + AttendanceActivity.period + "," +
-                    "'" + registers.get(i) + "'," +
-                    "" + sts + ");";
+            String qu = "insert into attendance set studentID='"+registers.get(i)+"', rosterID='"
+                    +RosterAttendance.message+"', instanceDate='"+ RosterAttendance.time+"', present='"+sts+"';";
+
             AppBase.handler.execAction(qu);
             activity.finish();
         }

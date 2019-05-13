@@ -33,7 +33,11 @@ import android.widget.Toast;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import com.example.teacherapp.R;
 import com.example.teacherapp.AppBase;
@@ -284,10 +288,14 @@ public class GridAdapter extends BaseAdapter {
                             int month = datePicker.getMonth() + 1;
                             int year = datePicker.getYear();
                             String date = year + "-" + month + "-" + day;
-                            String subject = spn.getSelectedItem().toString();
-                            String qx = "SELECT title FROM NOTES where sub = '" + subject + "'";
+
+                            SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                            Date date1 = new Date(year, month, day);
+                            String dayOfWeek = sdf.format(date1);
+                            //String subject = spn.getSelectedItem().toString();
+/*                            String qx = "SELECT title FROM NOTES where sub = '" + subject + "'";
                             ResultSet rs = AppBase.handler.execQuery(qx);
-                            String subnames = "";
+                            String subnames = "";*/
                             /*if (rs != null) {
                                 try {
                                     rs.first();
@@ -307,12 +315,13 @@ public class GridAdapter extends BaseAdapter {
                                     }
                                 }
                             }*/
-                            makeNotification(subnames);
-
-                            ResultSet rt = AppBase.handler.execQuery("SELECT * FROM ATTENDANCE WHERE datex = '" +
+                            //makeNotification(subnames);
+                            Toast.makeText(activity.getApplicationContext(),""+dayOfWeek,Toast.LENGTH_LONG).show();
+                            ResultSet rt = AppBase.handler.execQuery("SELECT * FROM classroster WHERE days = '" +
                                     date + "' AND hour = " + hour.getText() + ";");
-                            if (rt == null || rt.equals(0)) {
+                            if (rt == null) {
                                 Intent launchinIntent = new Intent(AppBase.activity, AttendanceActivity.class);
+                                launchinIntent.putExtra("DOW", dayOfWeek);
                                 launchinIntent.putExtra("DATE", date);
                                 launchinIntent.putExtra("PERIOD", hour.getText().toString());
                                 AppBase.activity.startActivity(launchinIntent);

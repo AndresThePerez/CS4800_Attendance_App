@@ -8,9 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionClass {
-    String url = "jdbc:mysql://10.173.35.71:3306/appuser?useSSL=false";
-    String user = "tester";
-    String pass = "schMkr314!";
+    String url = "jdbc:mysql://10.0.0.201:3306/attendance?useSSL=false";
+    String user = "test";
+    String pass = "test";
 
     @SuppressLint("NewApi")
     public Connection CONN() {
